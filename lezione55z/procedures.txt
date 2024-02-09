@@ -1,0 +1,36 @@
+1.
+CREATE PROCEDURE VisualizzaContravvenzioniPerAnno
+    @Anno INT
+AS
+BEGIN
+    SELECT A.Cognome, A.Nome, V.DataViolazione, V.IndirizzoViolazione, V.Importo, V.DecurtamentoPunti
+    FROM ANAGRAFICA A
+    JOIN VERBALE V ON A.idanagrafica = V.idanagrafica
+    WHERE YEAR(V.DataViolazione) = @Anno;
+END;
+
+--EXEC VisualizzaContravvenzioniPerAnno @Anno = 2001;
+
+
+2.
+CREATE PROCEDURE VisualizzaTotalePuntiDecurtatiPerData
+    @DataViolazione DATE
+AS
+BEGIN
+    SELECT SUM(DecurtamentoPunti) AS TotalePuntiDecurtati
+    FROM VERBALE
+    WHERE DataViolazione = @DataViolazione;
+END;
+
+
+3.
+CREATE PROCEDURE EliminaVerbale
+    @IdVerbale INT
+AS
+BEGIN
+    DELETE FROM VERBALE
+    WHERE idverbale = @IdVerbale;
+END;
+
+
+
